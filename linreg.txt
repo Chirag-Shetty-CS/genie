@@ -1,0 +1,38 @@
+#on synthetic data
+import numpy as np
+!pip install scikit-learn 
+from sklearn import datasets
+x,y,coef=datasets.make_regression(n_samples=100,n_features=1,n_informative=1,noise=10,coef=True,random_state=0)
+#Scale the feature x for exp from 0 to 20
+x=np.interp(x,(x.min(),x.max()),(0,20))
+len(x)
+print(x)
+y=np.interp(y,(y.min(),y.max()),(20000,150000))
+len(y)
+import matplotlib.pyplot as plt
+plt.plot(x,y,'.',label='training data')
+plt.xlabel("Years of Experience")
+plt.ylabel("Salary")
+plt.title("Experience vs Salary")
+from sklearn.linear_model import LinearRegression
+reg_model=LinearRegression()
+reg_model.fit(x,y)
+y_predicted=reg_model.predict(x)
+plt.plot(x,y_predicted,"",color="red")
+plt.plot(x,y,".",label="training data")
+plt.xlabel("Years of Experience")
+plt.ylabel("Salary")
+plt.title("Experience vs Salary")
+# simulate Y=10+7*x+e for 100
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+x_sim = np.random.rand(100, 1) * 10  
+e = np.random.randn(100, 1)
+y_sim = 10 + 7 * x_sim + e
+model_sim = LinearRegression()
+model_sim.fit(x_sim, y_sim)
+y_pred_sim = model_sim.predict(x_sim)
+model_sim = LinearRegression()
+model_sim.fit(x_sim, y_sim)
+y_pred_sim = model_sim.predict(x_sim)

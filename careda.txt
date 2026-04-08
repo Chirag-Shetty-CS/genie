@@ -1,0 +1,20 @@
+!pip install pandas
+import os
+os.getcwd()
+import pandas as pd
+mtcar_df=pd.read_csv("mtcars.csv")
+mtcar_df.head()
+mtcar_df.info()
+mtcar_df.isnull().sum()
+mtcar_df.describe()
+mtcar_cleaned = mtcar_df.drop(['model'], axis=1)
+mtcar_cleaned.head()
+mtcar_cleaned.info()
+!pip install matplotlib
+!pip install seaborn
+import matplotlib.pyplot as plt
+import seaborn as sns
+sns.catplot(x="cyl", hue="am", kind="count", data=mtcar_cleaned)
+sns.scatterplot(x='cyl', y='mpg', data=mtcar_cleaned, hue='cyl', palette='deep', s=100)
+sns.violinplot(x='gear', y='mpg',hue='gear', data=mtcar_cleaned, palette='Set2')
+sns.heatmap(mtcar_cleaned.corr(method="pearson"),annot=True,cmap='coolwarm',fmt=".2f",linewidths=0.5)

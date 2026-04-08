@@ -1,0 +1,40 @@
+use Institution
+db.Staff.insertMany([ 
+  { empid: 101, empname: "Chirag", salary: 250000, designation: "CEO" 
+}, 
+  { empid: 102, empname: "Priya", salary: 60000, designation: "Manager" 
+}, 
+  { empid: 103, empname: "Rahul", salary: 42000, designation: 
+"Accountant" }
+])
+// displaying only empid and designation
+db.Staff.find({}, { empid: 1, designation: 1, _id: 0 }) 
+// sort based on salary
+db.Staff.find().sort({ salary: -1 }) 
+db.Staff.find({  
+  $or: [  
+    { designation: "Manager" },  
+    { salary: { $gt: 50000 } }  
+  ]  
+}) 
+// update
+db.Staff.updateMany( 
+  { designation: "Accountant" },  
+  { $set: { salary: 45000 } } 
+) 
+// delete
+db.Student.deleteMany({ TotalMarks: { $lt: 200 } }) 
+Map reduce:
+var mapFunc = function() { 
+    emit(this.product, this.amount); 
+}; 
+var reduceFunc = function(key, values) { 
+    return Array.sum(values); 
+Name of Subject Incharge: Mrs. Maya Nair 
+}; 
+db.sales.mapReduce( 
+    mapFunc, 
+    reduceFunc, 
+    { out: "total_sales_results" } 
+) 
+ db.total_sales_results.find() 

@@ -1,0 +1,28 @@
+import os
+os.getcwd()
+import pandas as pd
+titanic_df=pd.read_csv("train.csv")
+titanic_df.head()
+titanic_df.info()
+titanic_df.isnull().sum()
+titanic_df.describe()
+titanic_cleaned = titanic_df.drop(["PassengerId" , "Name" , "Ticket" , "Fare" , "Cabin"],axis=1)
+titanic_cleaned.head()
+titanic_cleaned.info()
+titanic_cleaned["Age"]=titanic_cleaned["Age"].fillna(titanic_cleaned.groupby("Pclass")["Age"].transform("mean"))
+titanic_cleaned.isnull().sum()
+!pip install seaborn
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.catplot(x="Sex" ,hue="Survived" , kind="count" , data=titanic_cleaned)
+titanic_cleaned.groupby(['Sex' , 'Survived'])['Survived'].count()
+group1=titanic_cleaned.groupby(['Sex' , 'Survived'])
+gender_survived=group1.size().unstack()
+sns.heatmap(gender_survived,annot=True,fmt="d")
+group2=titanic_cleaned.groupby(['Pclass' , 'Survived'])
+Pclassno_survived=group2.size().unstack()
+sns.heatmap(Pclassno_survived,annot=True,fmt="d")
+sns.violinplot(x="Sex" , y="Age" , hue="Survived", data=titanic_cleaned, split=True, palette="Set2")
+titanic_corr = titanic_cleaned.drop(['Sex' , 'Embarked'], axis = 1)
+titanic_corr.corr(method="pearson")
+sns.heatmap(titanic_corr.corr(method="pearson"), annot=True, vmax=1)
